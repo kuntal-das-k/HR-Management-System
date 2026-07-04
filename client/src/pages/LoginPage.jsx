@@ -5,9 +5,10 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import {
-  RiBriefcaseLine, RiMailLine, RiLockPasswordLine,
+  RiMailLine, RiLockPasswordLine,
   RiEyeLine, RiEyeOffLine, RiArrowRightLine
 } from 'react-icons/ri';
+import logo from '../assets/logo.png';
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -34,19 +35,17 @@ const LoginPage = () => {
     <div className="min-h-screen flex bg-mesh">
       {/* Left Panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-700 via-primary-600 to-secondary-600" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FDF8F3] via-[#F4EBE0] to-[#E8D5BC]" />
         <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 40%)`
+          backgroundImage: `radial-gradient(circle at 30% 50%, rgba(255,255,255,0.4) 0%, transparent 50%),
+                            radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 0%, transparent 40%)`
         }} />
 
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
-              <RiBriefcaseLine className="text-white text-xl" />
-            </div>
-            <span className="font-display text-2xl font-bold text-white">HRMSPro</span>
+            <img src={logo} alt="HRMS Logo" className="h-12 w-auto" />
+            <span className="font-bold text-xl leading-none text-gray-900 tracking-tight">HRmanager</span>
           </div>
 
           {/* Center content */}
@@ -56,24 +55,25 @@ const LoginPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <h2 className="text-4xl font-display font-bold text-white mb-4 leading-tight">
-                Manage your team with confidence
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-none text-gray-900 mb-6 dela-gothic-one-regular">
+                Manage your team <br />
+                <span className="text-[#B58A59]">with confidence</span>
               </h2>
-              <p className="text-white/70 text-lg leading-relaxed mb-8">
+              <p className="text-gray-700 text-lg leading-relaxed mb-8 max-w-md">
                 The modern HR platform that makes people management simple, transparent, and effective.
               </p>
 
               {/* Feature points */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {[
                   'Complete attendance & leave tracking',
                   'Automated payroll processing',
                   'Real-time analytics & insights',
                   'AI-powered HR assistant',
                 ].map((item) => (
-                  <div key={item} className="flex items-center gap-3 text-white/90">
-                    <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-xs">✓</span>
+                  <div key={item} className="flex items-center gap-3 text-gray-800 font-medium">
+                    <div className="w-6 h-6 rounded-full bg-[#1EB952]/20 text-[#1EB952] flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm">✓</span>
                     </div>
                     <span className="text-sm">{item}</span>
                   </div>
@@ -83,21 +83,11 @@ const LoginPage = () => {
           </div>
 
           {/* Bottom */}
-          <p className="text-white/50 text-sm">© 2026 HRMSPro. All rights reserved.</p>
+          <p className="text-gray-500 text-sm font-medium">© 2026 HRMS. All rights reserved.</p>
         </div>
 
         {/* Floating cards decoration */}
-        <motion.div
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute right-8 top-1/3 w-48 glass-card p-4 bg-white/10 border-white/20"
-        >
-          <p className="text-white/60 text-xs mb-1">Present Today</p>
-          <p className="text-white text-2xl font-bold">189</p>
-          <div className="h-1.5 bg-white/20 rounded-full mt-2">
-            <div className="h-full w-3/4 bg-white/60 rounded-full" />
-          </div>
-        </motion.div>
+
       </div>
 
       {/* Right Panel - Form */}
@@ -109,11 +99,9 @@ const LoginPage = () => {
           className="w-full max-w-md"
         >
           {/* Mobile logo */}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center">
-              <RiBriefcaseLine className="text-white text-base" />
-            </div>
-            <span className="font-display font-bold text-lg text-gradient">HRMSPro</span>
+          <div className="flex items-center gap-3 mb-8 lg:hidden">
+            <img src={logo} alt="HRMS Logo" className="h-10 w-auto" />
+            <span className="font-bold text-xl leading-none text-gray-900 tracking-tight">HRmanager</span>
           </div>
 
           <div className="mb-8">
@@ -124,13 +112,13 @@ const LoginPage = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="input-label">Email address</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email address</label>
               <div className="relative">
-                <RiMailLine className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <RiMailLine className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
                 <input
                   type="email"
                   placeholder="you@company.com"
-                  className="input-field pl-10"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#B58A59] focus:border-transparent placeholder-gray-400 transition-all duration-200 pl-10"
                   {...register('email', {
                     required: 'Email is required',
                     pattern: { value: /^\S+@\S+\.\S+$/, message: 'Enter a valid email' }
@@ -142,13 +130,13 @@ const LoginPage = () => {
 
             {/* Password */}
             <div>
-              <label className="input-label">Password</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
               <div className="relative">
-                <RiLockPasswordLine className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                <RiLockPasswordLine className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter password"
-                  className="input-field pl-10 pr-10"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#B58A59] focus:border-transparent placeholder-gray-400 transition-all duration-200 pl-10 pr-10"
                   {...register('password', { required: 'Password is required' })}
                 />
                 <button
@@ -162,10 +150,10 @@ const LoginPage = () => {
               {errors.password && <p className="input-error">{errors.password.message}</p>}
             </div>
 
-            <button type="submit" disabled={loading} className="btn-primary w-full justify-center py-3 text-base">
+            <button type="submit" disabled={loading} className="w-full bg-gradient-to-br from-[#FDF8F3] via-[#F4EBE0] to-[#E8D5BC] hover:bg-[#b59d88ff] text-black px-8 py-3 rounded-full font-medium transition-colors text-base shadow-sm flex items-center justify-center gap-2">
               {loading ? (
                 <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
@@ -178,25 +166,12 @@ const LoginPage = () => {
           </form>
 
           {/* Demo credentials */}
-          <div className="mt-6 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-100 dark:border-primary-800">
-            <p className="text-xs font-semibold text-primary-700 dark:text-primary-300 mb-2">🔑 Demo Credentials</p>
-            <div className="grid grid-cols-2 gap-3 text-xs text-gray-600 dark:text-gray-400">
-              <div>
-                <p className="font-semibold text-gray-700 dark:text-gray-300">Admin</p>
-                <p>admin@hrms.com</p>
-                <p>Admin@123</p>
-              </div>
-              <div>
-                <p className="font-semibold text-gray-700 dark:text-gray-300">Employee</p>
-                <p>alice@hrms.com</p>
-                <p>Emp@123</p>
-              </div>
-            </div>
-          </div>
 
-          <p className="text-center mt-6 text-sm text-gray-500 dark:text-gray-400">
+
+
+          <p className="text-center mt-6 text-sm text-gray-500">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
+            <Link to="/register" className="text-[#1EB952] hover:text-[#1AA348] font-semibold transition-colors">
               Register here
             </Link>
           </p>

@@ -5,9 +5,10 @@ import {
   RiDashboardLine, RiTeamLine, RiCalendarCheckLine,
   RiFileTextLine, RiMoneyDollarCircleLine, RiUserLine,
   RiLogoutBoxLine, RiBarChartBoxLine, RiSettings3Line,
-  RiBriefcaseLine, RiShieldLine, RiMenuLine, RiCloseLine
+  RiShieldLine, RiMenuLine, RiCloseLine
 } from 'react-icons/ri';
 import { useState } from 'react';
+import logo from '../../assets/logo.png';
 
 const adminLinks = [
   { to: '/admin/dashboard', icon: RiDashboardLine, label: 'Dashboard' },
@@ -48,10 +49,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       className="h-full bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-slate-800 flex flex-col overflow-hidden shadow-sm z-20"
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-gray-100 dark:border-slate-800">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center flex-shrink-0 shadow-glow">
-          <RiBriefcaseLine className="text-white text-xl" />
-        </div>
+      <div className="flex items-center gap-3 px-4 py-5 border-b border-gray-100 dark:border-slate-800 h-20">
+        <img src={logo} alt="HRMS Logo" className="w-auto h-8 flex-shrink-0" />
         <AnimatePresence>
           {!collapsed && (
             <motion.div
@@ -60,8 +59,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.2 }}
             >
-              <span className="font-display font-bold text-lg text-gradient leading-none">HRMSPro</span>
-              <p className="text-xs text-gray-400 mt-0.5">
+              <span className="font-bold text-xl leading-none text-gray-900 dark:text-white tracking-tight">HRmanager</span>
+              <p className="text-xs text-gray-400 mt-1">
                 {isAdmin ? 'Admin Panel' : 'Employee Portal'}
               </p>
             </motion.div>

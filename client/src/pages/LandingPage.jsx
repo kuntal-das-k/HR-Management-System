@@ -1,208 +1,341 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  RiUserLine, RiCalendarCheckLine, RiFileTextLine,
-  RiMoneyDollarCircleLine, RiBarChartBoxLine, RiShieldLine,
-  RiArrowRightLine, RiBriefcaseLine, RiTeamLine, RiCheckboxCircleLine
+  RiTeamLine, RiCalendarCheckLine, RiFileTextLine,
+  RiMoneyDollarCircleLine, RiBarChartBoxLine, RiShieldCheckLine,
+  RiArrowRightLine, RiBriefcaseLine, RiPhoneLine, RiArrowDownSLine,
+  RiBuilding2Line, RiUser3Line, RiSmartphoneLine, RiAddLine, RiSubtractLine,
+  RiStarFill
 } from 'react-icons/ri';
 
-const features = [
-  { icon: RiTeamLine,               title: 'Employee Management',    desc: 'Manage employee profiles, roles, departments, and records with ease.' },
-  { icon: RiCalendarCheckLine,      title: 'Attendance Tracking',    desc: 'Check-in/out with QR codes, view daily, weekly, and monthly reports.' },
-  { icon: RiFileTextLine,           title: 'Leave Management',       desc: 'Apply for leaves, track approvals, and manage leave balances effortlessly.' },
-  { icon: RiMoneyDollarCircleLine,  title: 'Payroll Processing',     desc: 'Calculate salaries, bonuses, and deductions with full payslip generation.' },
-  { icon: RiBarChartBoxLine,        title: 'Analytics Dashboard',    desc: 'Beautiful charts for attendance trends, department stats and growth.' },
-  { icon: RiShieldLine,             title: 'Role-Based Access',      desc: 'Secure JWT authentication with separate admin and employee portals.' },
+import video from "../assets/employee2.mp4";
+import PublicNavbar from '../components/layout/PublicNavbar';
+import PublicFooter from '../components/layout/PublicFooter';
+
+const teamCards = [
+  {
+    title: 'For Organizations',
+    desc: 'Automate HR processes, reduce manual work, ensure compliance, and focus on what matters - your people and growth.',
+    icon: RiBuilding2Line
+  },
+  {
+    title: 'For HR Teams',
+    desc: 'Simplify employee management, track performance, manage attendance, leaves, payroll, and more in one place.',
+    icon: RiTeamLine
+  },
+  {
+    title: 'For Employees',
+    desc: 'Access your information, apply leaves, track attendance, view payslips, and stay updated - anytime, anywhere.',
+    icon: RiUser3Line
+  }
 ];
 
-const stats = [
-  { value: '500+', label: 'Companies' },
-  { value: '50K+', label: 'Employees' },
-  { value: '99.9%', label: 'Uptime' },
-  { value: '24/7', label: 'Support' },
+const features = [
+  { icon: RiBuilding2Line, title: 'Employee Management', desc: 'Store and manage employee information, documents, roles, and more securely.', color: 'bg-indigo-50 text-indigo-500' },
+  { icon: RiCalendarCheckLine, title: 'Attendance Tracking', desc: 'Track attendance, work hours, and overtime with detailed reports and insights.', color: 'bg-green-50 text-green-500' },
+  { icon: RiFileTextLine, title: 'Leave Management', desc: 'Employees can apply for leaves and managers can approve with ease.', color: 'bg-orange-50 text-orange-500' },
+  { icon: RiMoneyDollarCircleLine, title: 'Payroll Management', desc: 'Automate salary processing, tax calculations, and generate payslips in just a few clicks.', color: 'bg-purple-50 text-purple-500' },
+  { icon: RiStarFill, title: 'Performance Management', desc: 'Set goals, review performance, and help employees grow with continuous feedback.', color: 'bg-yellow-50 text-yellow-500' },
+  { icon: RiBarChartBoxLine, title: 'Reports & Analytics', desc: 'Get actionable insights with powerful reports and custom dashboards.', color: 'bg-blue-50 text-blue-500' },
+  { icon: RiShieldCheckLine, title: 'Secure & Compliant', desc: 'Ensure data security and stay compliant with the latest regulations.', color: 'bg-emerald-50 text-emerald-500' },
+  { icon: RiSmartphoneLine, title: 'Mobile Access', desc: 'Access HRMS anytime, anywhere with our mobile-friendly platform.', color: 'bg-pink-50 text-pink-500' },
+];
+
+const faqs = [
+  { q: 'What features does HRMS include?', a: 'HRMS includes employee management, attendance tracking, payroll processing, leave management, performance evaluations, and comprehensive reporting.' },
+  { q: 'Is my data secure with HRMS?', a: 'Yes, we use enterprise-grade encryption and comply with global data protection regulations to ensure your data is always safe.' },
+  { q: 'Can employees access their data?', a: 'Absolutely. We provide a self-service portal for employees to view their payslips, apply for leaves, and update their personal information.' },
+  { q: 'Is there a mobile app available?', a: 'Yes, HRMS is fully responsive and we offer dedicated mobile apps for both iOS and Android platforms.' },
+  { q: 'Can HRMS integrate with other tools?', a: 'Yes, we offer seamless integrations with popular accounting, communication, and productivity tools.' },
+  { q: 'Do you offer customer support?', a: 'We offer 24/7 customer support via chat, email, and phone for all our enterprise customers.' }
 ];
 
 const LandingPage = () => {
+  const [openFaq, setOpenFaq] = useState(null);
+
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 overflow-x-hidden">
+    <div className="min-h-screen font-sans overflow-x-hidden text-gray-900 bg-white">
+      {/* Background gradient at the top */}
+      <div className="absolute top-0 left-0 right-0 h-[800px] bg-gradient-to-b from-[#FDF8F3] via-[#FDF8F3] to-white -z-10" />
+
       {/* ---- NAV ---- */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-gray-100 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center shadow-glow">
-              <RiBriefcaseLine className="text-white text-base" />
-            </div>
-            <span className="font-display font-bold text-lg text-gradient">HRMSPro</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link to="/login" className="btn-ghost text-sm font-medium text-gray-600">Login</Link>
-            <Link to="/register" className="btn-primary text-sm">Get Started</Link>
-          </div>
-        </div>
-      </nav>
+      <PublicNavbar />
 
       {/* ---- HERO ---- */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-        {/* Background blobs */}
-        <div className="absolute top-10 left-1/4 w-96 h-96 bg-primary-200/30 dark:bg-primary-900/20 rounded-full blur-3xl -translate-x-1/2 pointer-events-none" />
-        <div className="absolute top-20 right-1/4 w-80 h-80 bg-secondary-200/30 dark:bg-secondary-900/10 rounded-full blur-3xl translate-x-1/2 pointer-events-none" />
-
-        <div className="max-w-5xl mx-auto text-center relative z-10">
+      <section className="pt-20 pb-16 px-4">
+        <div className="max-w-6xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            className="flex flex-col items-center justify-center mb-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-semibold rounded-full mb-6 border border-primary-200 dark:border-primary-700">
-              🚀 Built for Modern Teams
-            </span>
-
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              The{' '}
-              <span className="text-gradient">HR Platform</span>
-              <br />Your Team Deserves
-            </h1>
-
-            <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Streamline your entire HR workflow — from attendance and leaves to payroll and analytics — in one beautiful, intuitive platform.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="btn-primary text-base px-8 py-3 shadow-glow">
-                Start Free <RiArrowRightLine />
-              </Link>
-              <Link to="/login" className="btn-secondary text-base px-8 py-3">
-                Sign In
-              </Link>
+            <div className="flex items-center justify-center gap-4 text-5xl md:text-7xl lg:text-[7.5rem] font-bold tracking-tight leading-none text-gray-900 dela-gothic-one-regular">
+              <span>People</span>
+              <div className="w-32 h-16 md:w-64 md:h-24 lg:w-80 lg:h-32 rounded-full overflow-hidden mx-1 md:mx-3 flex-shrink-0 bg-gray-200">
+                <video autoPlay loop muted src={video} alt="Team collaborating" className="w-full h-full object-cover object-center" />
+              </div>
+              <span>Matter.</span>
+            </div>
+            <div className="text-4xl md:text-5xl lg:text-[6rem] font-bold tracking-tight leading-none dela-gothic-one-regular mt-4 md:mt-8">
+              <span className="text-gray-900">We Manage, </span>
+              <span className="text-[#B58A59]">You Empower.</span>
             </div>
           </motion.div>
 
-          {/* Dashboard Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-16 relative"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-gray-700 text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed font-medium"
           >
-            <div className="rounded-3xl overflow-hidden shadow-glass-lg border border-gray-200 dark:border-slate-700 bg-gradient-to-br from-primary-50 to-white dark:from-slate-900 dark:to-slate-800 p-6">
-              <div className="grid grid-cols-4 gap-3 mb-4">
-                {[
-                  { label: 'Total Employees', value: '247', color: 'from-primary-500 to-primary-600' },
-                  { label: 'Present Today',   value: '189', color: 'from-success-500 to-emerald-600' },
-                  { label: 'Pending Leaves',  value: '12',  color: 'from-warning-500 to-amber-600'   },
-                  { label: 'Departments',     value: '8',   color: 'from-secondary-500 to-blue-600'  },
-                ].map((stat) => (
-                  <div key={stat.label} className="glass-card p-4">
-                    <p className="text-xs text-gray-400 mb-1">{stat.label}</p>
-                    <p className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</p>
-                  </div>
-                ))}
+            Streamline HR operations, manage people, and build a thriving workplace<br className="hidden md:block" />
+            with our all-in-one HR management solution.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex items-center justify-center gap-4 mb-20"
+          >
+            <Link to="/register" className="bg-[#1EB952] hover:bg-[#1AA348] text-white px-8 py-3.5 rounded-full font-semibold transition-colors text-sm shadow-sm">
+              Get Started Free
+            </Link>
+            <div className="flex items-center gap-3 cursor-pointer group bg-white px-6 py-2.5 rounded-full border border-[#E8D5BC] hover:bg-[#FDF8F3] transition-colors">
+              <span className="font-semibold text-gray-900 text-sm">Take a Tour</span>
+              <div className="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center group-hover:bg-gray-100 transition-colors">
+                <RiArrowRightLine className="text-gray-900 text-xs" />
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                <div className="col-span-2 glass-card p-4 h-32 flex items-center justify-center">
-                  <div className="w-full flex items-end gap-2 h-20">
-                    {[65, 80, 55, 90, 75, 88, 70].map((h, i) => (
-                      <div key={i} className="flex-1 bg-gradient-to-t from-primary-600 to-primary-400 rounded-t-md opacity-80" style={{ height: `${h}%` }} />
-                    ))}
-                  </div>
-                </div>
-                <div className="glass-card p-4 flex items-center justify-center">
-                  <div className="w-24 h-24 rounded-full border-8 border-primary-200 border-t-primary-600 rotate-45" />
-                </div>
+            </div>
+          </motion.div>
+
+          {/* Trusted By Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="max-w-6xl mx-auto bg-[#F4EBE0]/80 border border-[#E8D5BC]/60 rounded-3xl p-6 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm"
+          >
+            <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 md:pr-8 md:border-r border-[#E8D5BC]">
+              <RiShieldCheckLine className="text-lg" />
+              <span>Trusted by 1000+ companies</span>
+            </div>
+
+            <div className="flex-1 flex flex-wrap items-center justify-center gap-8 md:gap-14 opacity-90 mix-blend-multiply">
+              <span className="font-bold text-2xl tracking-tighter text-[#714B67]">odoo</span>
+              <span className="font-bold text-2xl tracking-tight text-[#2B79A6]">greytHR</span>
+              <span className="font-bold text-2xl tracking-tighter text-[#C82A2E]">ZOHO</span>
+              <span className="font-bold text-2xl tracking-tight text-[#0066CC]">darwin<span className="text-[#333]">box</span></span>
+              <span className="font-bold text-2xl tracking-tight text-[#1D1D1D]">keka<span className="text-[#F1C40F]">"</span></span>
+            </div>
+
+            <div className="flex items-center gap-2 text-xs font-semibold text-gray-700 md:pl-4">
+              <span>and many more</span>
+              <div className="w-6 h-6 rounded-full border border-[#E8D5BC] bg-transparent flex items-center justify-center">
+                <RiArrowRightLine className="text-[10px]" />
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ---- STATS ---- */}
-      <section className="py-16 bg-gradient-to-r from-primary-600 to-secondary-600">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="text-center text-white"
-              >
-                <div className="text-4xl font-display font-bold mb-1">{stat.value}</div>
-                <div className="text-white/70 text-sm">{stat.label}</div>
-              </motion.div>
+      {/* ---- BUILT FOR EVERY TEAM ---- */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="inline-block px-4 py-1.5 rounded-full bg-[#FDF8F3] border border-[#E8D5BC] text-xs font-semibold text-gray-600 mb-8">
+            Built for Every Team
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            {teamCards.map((card, i) => (
+              <div key={i} className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden h-[300px] flex flex-col">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 relative z-10">{card.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-[85%] relative z-10">{card.desc}</p>
+                <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 cursor-pointer hover:text-gray-600 transition-colors mt-auto relative z-10">
+                  Learn More <RiArrowRightLine />
+                </div>
+
+                {/* Simulated person image bottom right */}
+                <div className="absolute -bottom-6 -right-6 w-36 h-36 bg-[#FDF8F3] rounded-full flex items-center justify-center opacity-90 border-8 border-white">
+                  <card.icon className="text-4xl text-[#B58A59]" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---- FEATURES ---- */}
-      <section className="py-24 px-4">
-        <div className="max-w-6xl mx-auto">
+      {/* ---- POWERFUL FEATURES ---- */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-[#FDF8F3]/40">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-4xl font-display font-bold text-gray-900 dark:text-white mb-4"
-            >
-              Everything you need to manage HR
-            </motion.h2>
-            <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              A complete HR suite designed for the modern workplace.
-            </p>
+            <div className="inline-block px-4 py-1.5 rounded-full bg-white border border-[#E8D5BC] text-xs font-semibold text-gray-600 mb-6">
+              Powerful Features
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Everything you need to manage HR, in one place
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, i) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -4 }}
-                className="glass-card p-6 group cursor-default hover:shadow-card-hover transition-all duration-300"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-md">
-                  <feature.icon className="text-white text-2xl" />
+              <div key={i} className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${feature.color}`}>
+                    <feature.icon className="text-2xl" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900 leading-tight mb-2 mt-1">{feature.title}</h3>
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">{feature.title}</h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{feature.desc}</p>
-              </motion.div>
+                <p className="text-gray-500 text-sm leading-relaxed mb-6 flex-grow">{feature.desc}</p>
+                <div className="flex items-center gap-2 text-sm font-semibold text-gray-900 cursor-pointer hover:text-gray-600 transition-colors mt-auto">
+                  Learn More <RiArrowRightLine />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---- STATS & TESTIMONIAL ---- */}
+      <section className="py-24 px-4 bg-white">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+          <div className="w-full lg:w-1/2 grid grid-cols-2 gap-y-12 gap-x-8">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center mb-3">
+                <RiTeamLine className="text-3xl text-gray-800" />
+              </div>
+              <div className="text-4xl font-bold text-gray-900 mb-1">10K+</div>
+              <div className="text-sm font-semibold text-gray-500">Happy Users</div>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center mb-3">
+                <RiBuilding2Line className="text-3xl text-gray-800" />
+              </div>
+              <div className="text-4xl font-bold text-gray-900 mb-1">500+</div>
+              <div className="text-sm font-semibold text-gray-500">Companies</div>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center mb-3">
+                <RiShieldCheckLine className="text-3xl text-gray-800" />
+              </div>
+              <div className="text-4xl font-bold text-gray-900 mb-1">99.9%</div>
+              <div className="text-sm font-semibold text-gray-500">Uptime</div>
+            </div>
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 flex items-center justify-center mb-3">
+                <RiUser3Line className="text-3xl text-gray-800" />
+              </div>
+              <div className="text-4xl font-bold text-gray-900 mb-1">24/7</div>
+              <div className="text-sm font-semibold text-gray-500">Support</div>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-1/2">
+            <div className="bg-[#FDF8F3] rounded-3xl p-10 border border-[#E8D5BC]">
+              <div className="text-5xl text-[#B58A59] font-serif mb-4 leading-none">"</div>
+              <p className="text-lg font-medium text-gray-800 mb-8 leading-relaxed">
+                HRMS has transformed the way we manage our workforce. It's intuitive, reliable, and has saved us countless hours of manual work.
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
+                    {/* Placeholder for avatar */}
+                    <div className="w-full h-full bg-[#B58A59] flex items-center justify-center text-white font-bold text-xl">P</div>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Priya Sharma</h4>
+                    <p className="text-sm text-gray-500">HR Manager, TechSolutions</p>
+                  </div>
+                </div>
+                <div className="flex gap-1 text-yellow-400 text-lg">
+                  <RiStarFill /><RiStarFill /><RiStarFill /><RiStarFill /><RiStarFill />
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center gap-2 mt-6">
+              <div className="w-2 h-2 rounded-full bg-[#1EB952]"></div>
+              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+              <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- FAQs ---- */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-5xl mx-auto flex flex-col items-center">
+          <div className="text-center mb-12">
+            <div className="inline-block px-4 py-1.5 rounded-full bg-[#FDF8F3] border border-[#E8D5BC] text-xs font-semibold text-gray-600 mb-6">
+              FAQs
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900">Quick Answers to Common Questions</h2>
+          </div>
+
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2">
+            {faqs.map((faq, i) => (
+              <div key={i} className="border-b border-gray-200 py-4">
+                <button
+                  className="w-full flex items-center justify-between text-left font-semibold text-gray-800 focus:outline-none"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span className="text-sm pr-4">{faq.q}</span>
+                  {openFaq === i ? <RiSubtractLine className="text-gray-500 flex-shrink-0" /> : <RiAddLine className="text-gray-500 flex-shrink-0" />}
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pt-3 text-sm text-gray-500 leading-relaxed">{faq.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* ---- CTA ---- */}
-      <section className="py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-primary-600 to-secondary-600 rounded-3xl p-12 text-white shadow-glow-lg"
-          >
-            <h2 className="text-4xl font-display font-bold mb-4">Ready to get started?</h2>
-            <p className="text-white/80 text-lg mb-8">Join thousands of companies managing their HR with HRMSPro.</p>
-            <Link to="/register" className="inline-flex items-center gap-2 bg-white text-primary-700 font-bold px-8 py-3.5 rounded-2xl hover:shadow-lg transition-all duration-200 text-base">
-              Create Free Account <RiArrowRightLine />
-            </Link>
-          </motion.div>
+      <section className="py-12 px-4 mb-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-[#4F7A6A] rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-10 md:p-14">
+
+            {/* Woman Image Placeholder */}
+            <div className="hidden md:block absolute left-8 bottom-0 w-48 h-56 bg-white/10 rounded-t-full border border-white/20">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <RiUser3Line className="text-6xl text-white/50" />
+              </div>
+            </div>
+
+            <div className="relative z-10 md:ml-64 text-white text-center md:text-left mb-8 md:mb-0">
+              <h2 className="text-3xl font-bold mb-3">Ready to Simplify Your HR?</h2>
+              <p className="text-white/80 text-sm max-w-md mx-auto md:mx-0">Join thousands of organizations building better workplaces with HRMS.</p>
+            </div>
+
+            <div className="relative z-10">
+              <Link to="/register" className="inline-flex items-center justify-between bg-white text-gray-900 font-semibold px-8 py-4 rounded-full transition-colors text-sm min-w-[200px] hover:bg-gray-50">
+                Get Started Free <RiArrowRightLine />
+              </Link>
+            </div>
+
+            {/* Squiggly line decoration */}
+            <svg className="absolute right-[20%] top-1/2 -translate-y-1/2 opacity-30" width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 20C20 20 20 0 40 0C60 0 60 40 80 40C100 40 100 20 120 20" stroke="white" strokeWidth="2" strokeDasharray="4 4" />
+            </svg>
+          </div>
         </div>
       </section>
 
       {/* ---- FOOTER ---- */}
-      <footer className="border-t border-gray-100 dark:border-slate-800 py-8 text-center text-gray-400 text-sm">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary-600 to-secondary-500 flex items-center justify-center">
-            <RiBriefcaseLine className="text-white text-sm" />
-          </div>
-          <span className="font-display font-bold text-gradient text-base">HRMSPro</span>
-        </div>
-        <p>© 2026 HRMSPro. Built for the hackathon 🏆</p>
-      </footer>
+      <PublicFooter />
     </div>
   );
 };

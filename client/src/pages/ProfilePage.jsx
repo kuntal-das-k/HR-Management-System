@@ -289,18 +289,7 @@ const ProfilePage = () => {
           </div>
           <div>
             <label className="input-label">New Password</label>
-            <input
-              type="password"
-              className="input-field"
-              placeholder="Min. 8 chars (uppercase, lowercase, number, symbol)"
-              {...regPwd('newPassword', {
-                required: 'Required',
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/,
-                  message: 'Must be at least 8 characters and include an uppercase, a lowercase, a number, and a symbol (@$!%*?&#)'
-                }
-              })}
-            />
+            <input type="password" className="input-field" placeholder="Min. 6 characters" {...regPwd('newPassword', { required: 'Required', minLength: { value: 6, message: 'Min 6 characters' } })} />
             {errPwd.newPassword && <p className="input-error">{errPwd.newPassword.message}</p>}
           </div>
           <div>

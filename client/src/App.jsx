@@ -11,6 +11,13 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+// Public pages
+import FeaturesPage from './pages/public/FeaturesPage';
+import SolutionsPage from './pages/public/SolutionsPage';
+import ResourcesPage from './pages/public/ResourcesPage';
+import AboutUsPage from './pages/public/AboutUsPage';
+import PricingPage from './pages/public/PricingPage';
+
 // Employee pages
 import EmployeeDashboard from './pages/employee/EmployeeDashboard';
 import ProfilePage from './pages/ProfilePage';
@@ -51,6 +58,12 @@ const App = () => {
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/features" element={<FeaturesPage />} />
+            <Route path="/solutions" element={<SolutionsPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/about" element={<AboutUsPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+
             <Route element={<PublicRoute />}>
               <Route path="/login"    element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
