@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Node modules
 node_modules/
 client/node_modules/
@@ -21,3 +22,11 @@ client/dist/
 # Local uploads
 server/uploads/*
 !server/uploads/.gitkeep
+=======
+node_modules/
+.env
+.env.local
+uploads/
+scratch_test.js
+*.log
+>>>>>>> 2309797b323c048666cb49bf416572b27ee24c86
