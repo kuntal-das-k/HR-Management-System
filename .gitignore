@@ -1,0 +1,23 @@
+# Node modules
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Local env files
+.env
+server/.env
+client/.env
+
+# IDEs & System files
+.vscode/
+.idea/
+.DS_Store
+*.log
+
+# Build files
+dist/
+client/dist/
+
+# Local uploads
+server/uploads/*
+!server/uploads/.gitkeep
