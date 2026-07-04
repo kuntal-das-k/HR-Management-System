@@ -18,7 +18,7 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const { register, handleSubmit, setError, formState: { errors }, watch } = useForm();
   const password = watch('password');
 
   const onSubmit = async (data) => {
@@ -29,7 +29,18 @@ const RegisterPage = () => {
       toast.success(`Welcome to HRMS, ${data.name}! 🎉`);
       navigate(user.role === 'admin' ? '/admin/dashboard' : '/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed.');
+      const serverErrors = err.response?.data?.errors;
+      if (serverErrors && Array.isArray(serverErrors)) {
+        serverErrors.forEach(error => {
+          // express-validator returns error.path (formerly error.param)
+          const fieldName = error.path || error.param;
+          if (fieldName) {
+            setError(fieldName, { type: 'server', message: error.msg });
+          }
+        });
+      } else {
+        toast.error(err.response?.data?.message || 'Registration failed.');
+      }
     } finally {
       setLoading(false);
     }
@@ -187,7 +198,11 @@ const RegisterPage = () => {
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#B58A59] focus:border-transparent placeholder-gray-400 transition-all duration-200 pl-10 pr-10"
                     {...register('password', {
                       required: 'Password is required',
-                      minLength: { value: 6, message: 'Minimum 6 characters' }
+                      validate: {
+                        strongPassword: (v) => 
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(v) ||
+                          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one symbol.'
+                      }
                     })}
                   />
                   <button

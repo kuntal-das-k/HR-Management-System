@@ -36,7 +36,7 @@ const ProfilePage = () => {
   const fileInputRef = useRef(null);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const { register: regPwd, handleSubmit: handlePwd, reset: resetPwd, formState: { errors: errPwd }, watch } = useForm();
+  const { register: regPwd, handleSubmit: handlePwd, setError: setErrorPwd, reset: resetPwd, formState: { errors: errPwd }, watch } = useForm();
   const newPass = watch('newPassword');
 
   useEffect(() => {
@@ -78,7 +78,17 @@ const ProfilePage = () => {
       setPasswordModal(false);
       resetPwd();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to change password');
+      const serverErrors = err.response?.data?.errors;
+      if (serverErrors && Array.isArray(serverErrors)) {
+        serverErrors.forEach(error => {
+          const fieldName = error.path || error.param;
+          if (fieldName) {
+            setErrorPwd(fieldName, { type: 'server', message: error.msg });
+          }
+        });
+      } else {
+        toast.error(err.response?.data?.message || 'Failed to change password');
+      }
     } finally {
       setSaving(false);
     }
@@ -289,7 +299,14 @@ const ProfilePage = () => {
           </div>
           <div>
             <label className="input-label">New Password</label>
-            <input type="password" className="input-field" placeholder="Min. 6 characters" {...regPwd('newPassword', { required: 'Required', minLength: { value: 6, message: 'Min 6 characters' } })} />
+            <input type="password" className="input-field" placeholder="Strong password (min. 8 chars)" {...regPwd('newPassword', {
+              required: 'Required',
+              validate: {
+                strongPassword: (v) => 
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/.test(v) ||
+                  'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one symbol.'
+              }
+            })} />
             {errPwd.newPassword && <p className="input-error">{errPwd.newPassword.message}</p>}
           </div>
           <div>
